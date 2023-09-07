@@ -3,6 +3,7 @@ package com.cartao.cartaoservice.service;
 import com.cartao.cartaoservice.dto.TipoCartao;
 import com.cartao.cartaoservice.dto.request.CartaoRequest;
 import com.cartao.cartaoservice.dto.response.CartaoResponse;
+import com.cartao.cartaoservice.dto.response.DependentesResponse;
 import com.cartao.cartaoservice.entity.Cartao;
 import com.cartao.cartaoservice.entity.Usuario;
 import com.cartao.cartaoservice.repository.CartaoRepository;
@@ -27,32 +28,35 @@ public class CartaoService {
 
     public CartaoResponse execute(CartaoRequest cadastroRequest) {
 
-        // Usuariosuario usuario = usuarioRepository.findById(cadastroRequest.getIdentificador())
-        //  .orElseThrow();
-        Usuario usuario = new Usuario(cadastroRequest);
-        usuarioRepository.save(usuario);
-
-        Cartao cartao = new Cartao(cadastroRequest ,gerarNumeroAleatorio(3), gerarNumeroAleatorio(12), usuario);
-        cartaoRepository.save(cartao);
-        return new CartaoResponse(cartao.getNumeroCartao(), cartao.getNomeTitular(),
-                cartao.getTipoCartao(), usuario.getNome());
-    }
-
-    public List<CartaoResponse> cadastrarDependentes(CartaoRequest cadastroRequest) {
+        boolean exists = usuarioRepository.existsById(cadastroRequest.getIdentificador());
+        if (!exists) {
+            Usuario usuario = new Usuario(cadastroRequest);
+            usuarioRepository.save(usuario);
+        }
         Usuario usuario = usuarioRepository.findById(cadastroRequest.getIdentificador())
                 .orElseThrow();
 
-        List<Cartao> listaCartoes = new ArrayList<>();
-        List<CartaoResponse> listaResposta = new ArrayList<>();
+        Cartao cartao = new Cartao(cadastroRequest ,gerarNumeroAleatorio(3), gerarNumeroAleatorio(12), usuario);
+        cartaoRepository.save(cartao);
 
-        for (String dependente : cadastroRequest.getDependentes()) {
-            Cartao cartao = new Cartao(cadastroRequest ,gerarNumeroAleatorio(3), gerarNumeroAleatorio(12), usuario);
-            cartao.setDependente(true);
-            cartao.setTipoCartao(TipoCartao.PRATA);
-            cartao.setNomeTitular(dependente);
+        List<DependentesResponse> listaDependentes = new ArrayList<>();
+
+        if (!cadastroRequest.getDependentes().isEmpty()){
+            listaDependentes =  cadastrarDependentes(cadastroRequest.getDependentes(), usuario);
+        }
+        return new CartaoResponse(cartao.getNumeroCartao(), cartao.getNomeTitular(), cartao.getTipoCartao(), usuario.getNome(), listaDependentes);
+    }
+
+    public List<DependentesResponse> cadastrarDependentes(List<String> dependentes, Usuario usuario) {
+
+        List<Cartao> listaCartoes = new ArrayList<>();
+        List<DependentesResponse> listaResposta = new ArrayList<>();
+
+        for (String dependente : dependentes) {
+            Cartao cartao = new Cartao(dependente ,gerarNumeroAleatorio(3), gerarNumeroAleatorio(12), usuario);
             listaCartoes.add(cartao);
-            listaResposta.add(new CartaoResponse(cartao.getNumeroCartao(), cartao.getNomeTitular(),
-                    cartao.getTipoCartao(), usuario.getNome()));
+            listaResposta.add(new DependentesResponse(cartao.getNumeroCartao(), cartao.getNomeTitular(),
+                    cartao.getTipoCartao()));
         }
         cartaoRepository.saveAll(listaCartoes);
         return listaResposta;

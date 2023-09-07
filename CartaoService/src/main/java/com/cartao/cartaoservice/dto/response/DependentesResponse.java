@@ -5,15 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartaoResponse {
+public class DependentesResponse {
     private String numeroCartao;
     private String nomeTitularCartao;
     private TipoCartao tipoCartao;
-    private String nomeTitularConta;
-    private List<DependentesResponse> dependentes;
+
 }
