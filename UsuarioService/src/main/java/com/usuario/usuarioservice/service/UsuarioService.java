@@ -35,7 +35,7 @@ public class UsuarioService {
         if (!dto.dependentes().isEmpty()) {
             // TODO logica de mensagem para orquestrador
         }
-        return new UsuarioDependentesResponse(null, null, null, new ArrayList<>());
+        return new UsuarioDependentesResponse(null, null, new ArrayList<>());
     }
 
     public List<UsuarioResponse> buscarTodos() {

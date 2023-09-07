@@ -1,4 +1,4 @@
 package com.usuario.usuarioservice.dto.response;
 
-public record UsuarioResponse(String cpf, String nome, String sobrenome) {
+public record UsuarioResponse(String cpf, String nome) {
 }
