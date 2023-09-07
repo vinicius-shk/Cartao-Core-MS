@@ -2,9 +2,7 @@ package com.usuario.usuarioservice.entity;
 
 import com.usuario.usuarioservice.dto.request.UsuarioRequest;
 import com.usuario.usuarioservice.dto.response.UsuarioResponse;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +17,9 @@ public class Usuario {
     private String cpf;
     private String nome;
     private String sobrenome;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_endereco")
+    private Endereco endereco;
 
     public Usuario(UsuarioRequest dto){
         this.cpf = dto.cpf();
