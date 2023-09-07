@@ -33,7 +33,13 @@ public class Endereco {
     }
 
     public EnderecoResponse enderecoDto() {
-        return new EnderecoResponse(this.cep, this.rua, this.bairro, this.cidade, this.estado, this.complemento,
+        return new EnderecoResponse(
+                this.cep,
+                this.rua,
+                this.bairro,
+                this.cidade,
+                this.estado,
+                this.complemento,
                 this.numero);
     }
 }

@@ -45,4 +45,24 @@ public class UsuarioService {
     public Optional<Usuario> buscarPorId(String id) {
         return usuarioRepository.findById(id);
     }
+
+    public Optional<Usuario> atualizarUsuario(UsuarioRequest dto, String id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if (usuario.isPresent()) {
+            Endereco enderecoAtualizado = new Endereco(dto.endereco());
+            usuario.get().setEndereco(enderecoAtualizado);
+            usuarioRepository.save(usuario.get());
+            return usuario;
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Usuario> deletarUsuario(String id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if (usuario.isPresent()) {
+            usuarioRepository.delete(usuario.get());
+            return usuario;
+        }
+        return Optional.empty();
+    }
 }

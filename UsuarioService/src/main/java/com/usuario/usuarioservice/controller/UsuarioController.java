@@ -46,4 +46,19 @@ public class UsuarioController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @PutMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<UsuarioDetalhesResponse> atualizarUsuario(@RequestBody UsuarioRequest body,
+                                                                    @PathVariable String id) {
+        Optional<Usuario> usuario = usuarioService.atualizarUsuario(body, id);
+        return usuario.map(value -> ResponseEntity.status(HttpStatus.OK).body(value.usuarioDetalhesDto()))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<UsuarioDetalhesResponse> deletarUsuario(@PathVariable String id) {
+        Optional<Usuario> usuario = usuarioService.deletarUsuario(id);
+        return usuario.map(value -> ResponseEntity.status(HttpStatus.OK).body(value.usuarioDetalhesDto()))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
 }
