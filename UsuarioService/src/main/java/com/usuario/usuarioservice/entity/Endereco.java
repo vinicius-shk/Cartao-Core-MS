@@ -1,6 +1,7 @@
 package com.usuario.usuarioservice.entity;
 
 import com.usuario.usuarioservice.dto.request.EnderecoRequest;
+import com.usuario.usuarioservice.dto.response.EnderecoResponse;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,5 +30,10 @@ public class Endereco {
         this.complemento = dto.complemento();
         this.numero = dto.numero();
         this.rua = dto.rua();
+    }
+
+    public EnderecoResponse enderecoDto() {
+        return new EnderecoResponse(this.cep, this.rua, this.bairro, this.cidade, this.estado, this.complemento,
+                this.numero);
     }
 }

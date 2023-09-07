@@ -1,6 +1,7 @@
 package com.usuario.usuarioservice.service;
 
 import com.usuario.usuarioservice.dto.request.UsuarioRequest;
+import com.usuario.usuarioservice.dto.response.UsuarioDependentesResponse;
 import com.usuario.usuarioservice.dto.response.UsuarioResponse;
 import com.usuario.usuarioservice.entity.Endereco;
 import com.usuario.usuarioservice.entity.Usuario;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +20,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final EnderecoRepository enderecoRepository;
 
-    public UsuarioResponse cadastrarUsuario(UsuarioRequest dto) {
+    public UsuarioDependentesResponse cadastrarUsuario(UsuarioRequest dto) {
         Usuario usuario = new Usuario(dto);
         Endereco endereco = enderecoRepository.save(new Endereco(dto.endereco()));
         usuario.setEndereco(endereco);
@@ -25,13 +28,21 @@ public class UsuarioService {
 
         // TODO inicio da saga enviando dados do usuario e lista de dependentes
 
-        return usuario.usuarioDto(dto.dependentes());
+        return usuario.usuarioDependenteDto(dto.dependentes());
     }
 
-    public UsuarioResponse cadastrarDependentes(UsuarioRequest dto) {
+    public UsuarioDependentesResponse cadastrarDependentes(UsuarioRequest dto) {
         if (!dto.dependentes().isEmpty()) {
             // TODO logica de mensagem para orquestrador
         }
-        return new UsuarioResponse(null, null, null, new ArrayList<>());
+        return new UsuarioDependentesResponse(null, null, null, new ArrayList<>());
+    }
+
+    public List<UsuarioResponse> buscarTodos() {
+        return usuarioRepository.findAll().stream().map(Usuario::usuarioDto).toList();
+    }
+
+    public Optional<Usuario> buscarPorId(String id) {
+        return usuarioRepository.findById(id);
     }
 }
