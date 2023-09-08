@@ -3,7 +3,7 @@ package com.usuario.usuarioservice.controller;
 import com.usuario.usuarioservice.dto.request.UsuarioRequest;
 import com.usuario.usuarioservice.dto.response.UsuarioDependentesResponse;
 import com.usuario.usuarioservice.dto.response.UsuarioDetalhesResponse;
-import com.usuario.usuarioservice.dto.response.UsuarioRabbitMQResponse;
+import com.usuario.usuarioservice.dto.response.UsuarioRabbitMQEvent;
 import com.usuario.usuarioservice.dto.response.UsuarioResponse;
 import com.usuario.usuarioservice.entity.Usuario;
 import com.usuario.usuarioservice.service.UsuarioService;
@@ -30,9 +30,8 @@ public class UsuarioController {
         UsuarioDependentesResponse usuarioDependentesResponse = usuarioService.cadastrarUsuario(body);
 
         // Mensageria para RabbitMQ com fluxo
-        Message message = new Message(new UsuarioRabbitMQResponse(body.cpf(), body.nome(), body.tipoCartao(),
-                body.dependentes()).toString().getBytes());
-        rabbitTemplate.send(ROUTING_KEY, message);
+        UsuarioRabbitMQEvent event = new UsuarioRabbitMQEvent(body);
+        rabbitTemplate.convertAndSend(ROUTING_KEY, event);
         return usuarioDependentesResponse;
     }
 
@@ -42,7 +41,7 @@ public class UsuarioController {
         if (usuario.dependentes().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        Message message = new Message(new UsuarioRabbitMQResponse(body.cpf(), body.nome(), body.tipoCartao(),
+        Message message = new Message(new UsuarioRabbitMQEvent(body.cpf(), body.nome(), body.tipoCartao(),
                 body.dependentes()).toString().getBytes());
         rabbitTemplate.send(ROUTING_KEY, message);
 
