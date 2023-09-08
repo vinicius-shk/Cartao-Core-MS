@@ -1,14 +1,14 @@
 package com.cartao.cartaoservice.dto.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import com.cartao.cartaoservice.dto.TipoCartao;
 
 import java.util.List;
 
-@Getter
-@Setter
-public class CartaoRequest {
+@NoArgsConstructor
+@Data
+@AllArgsConstructor
+public class UsuarioRabbitMQEvent {
 
     private String identificador;
 
