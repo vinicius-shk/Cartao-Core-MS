@@ -35,19 +35,6 @@ public class UsuarioController {
         return usuarioDependentesResponse;
     }
 
-    @PostMapping(path = "/dependentes", produces = "application/json")
-    public ResponseEntity<UsuarioDependentesResponse> cadastrarDependentes(@RequestBody UsuarioRequest body) {
-        UsuarioDependentesResponse usuario = usuarioService.cadastrarDependentes(body);
-        if (usuario.dependentes().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        Message message = new Message(new UsuarioRabbitMQEvent(body.cpf(), body.nome(), body.tipoCartao(),
-                body.dependentes()).toString().getBytes());
-        rabbitTemplate.send(ROUTING_KEY, message);
-
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.cadastrarDependentes(body));
-    }
-
     @GetMapping(path = "", produces = "application/json")
     public List<UsuarioResponse> buscarTodos() {
         return usuarioService.buscarTodos();

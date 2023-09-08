@@ -26,16 +26,7 @@ public class UsuarioService {
         usuario.setEndereco(endereco);
         usuarioRepository.save(usuario);
 
-        // TODO inicio da saga enviando dados do usuario e lista de dependentes
-
         return usuario.usuarioDependenteDto(dto.dependentes());
-    }
-
-    public UsuarioDependentesResponse cadastrarDependentes(UsuarioRequest dto) {
-        if (!dto.dependentes().isEmpty()) {
-            // TODO logica de mensagem para orquestrador
-        }
-        return new UsuarioDependentesResponse(null, null, new ArrayList<>());
     }
 
     public List<UsuarioResponse> buscarTodos() {
