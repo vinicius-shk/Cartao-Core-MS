@@ -18,7 +18,6 @@ public class Usuario {
     @Id
     private String cpf;
     private String nome;
-    private String sobrenome;
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
@@ -26,20 +25,19 @@ public class Usuario {
     public Usuario(UsuarioRequest dto){
         this.cpf = dto.cpf();
         this.nome = dto.nome();
-        this.sobrenome = dto.sobrenome();
 
     }
 
     public UsuarioResponse usuarioDto() {
-        return new UsuarioResponse(this.cpf, this.nome, this.sobrenome);
+        return new UsuarioResponse(this.cpf, this.nome);
     }
 
     public UsuarioDependentesResponse usuarioDependenteDto(List<String> dependentes) {
-        return new UsuarioDependentesResponse(this.cpf, this.nome, this.sobrenome, dependentes);
+        return new UsuarioDependentesResponse(this.cpf, this.nome, dependentes);
     }
 
     public UsuarioDetalhesResponse usuarioDetalhesDto() {
-        return new UsuarioDetalhesResponse(this.cpf, this.nome, this.sobrenome, this.endereco.enderecoDto());
+        return new UsuarioDetalhesResponse(this.cpf, this.nome, this.endereco.enderecoDto());
     }
 
 }
