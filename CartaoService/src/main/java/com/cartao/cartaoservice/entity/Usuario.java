@@ -1,6 +1,6 @@
 package com.cartao.cartaoservice.entity;
 
-import com.cartao.cartaoservice.dto.request.CartaoRequest;
+import com.cartao.cartaoservice.dto.request.UsuarioRabbitMQEvent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -16,7 +16,7 @@ public class Usuario {
     private String identificador;
     private String nome;
 
-    public Usuario(CartaoRequest dto){
+    public Usuario(UsuarioRabbitMQEvent dto){
         this.identificador = dto.getIdentificador();
         this.nome = dto.getNome();
 

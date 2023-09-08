@@ -1,7 +1,7 @@
 package com.cartao.cartaoservice.entity;
 
 import com.cartao.cartaoservice.dto.TipoCartao;
-import com.cartao.cartaoservice.dto.request.CartaoRequest;
+import com.cartao.cartaoservice.dto.request.UsuarioRabbitMQEvent;
 import com.cartao.cartaoservice.dto.response.CartaoResponse;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,7 +30,7 @@ public class Cartao {
     @JoinColumn(name = "usuarioIdentificador")
     private Usuario usuario;
 
-    public Cartao(CartaoRequest dto, String codigoSeguranca, String numeroCartao, Usuario user) {
+    public Cartao(UsuarioRabbitMQEvent dto, String codigoSeguranca, String numeroCartao, Usuario user) {
         LocalDate dataAtual = LocalDate.now();
         this.nomeTitular = dto.getNome();
         this.tipoCartao = dto.getTipoCartao();

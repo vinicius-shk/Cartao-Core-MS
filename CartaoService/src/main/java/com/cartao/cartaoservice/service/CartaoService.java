@@ -1,6 +1,6 @@
 package com.cartao.cartaoservice.service;
 
-import com.cartao.cartaoservice.dto.request.CartaoRequest;
+import com.cartao.cartaoservice.dto.request.UsuarioRabbitMQEvent;
 import com.cartao.cartaoservice.dto.response.CartaoResponse;
 import com.cartao.cartaoservice.dto.response.DependentesResponse;
 import com.cartao.cartaoservice.entity.Cartao;
@@ -22,7 +22,7 @@ public class CartaoService {
     private final UsuarioRepository usuarioRepository;
     private static Random random;
 
-    public CartaoResponse execute(CartaoRequest cadastroRequest) {
+    public CartaoResponse execute(UsuarioRabbitMQEvent cadastroRequest) {
 
         boolean exists = usuarioRepository.existsById(cadastroRequest.getIdentificador());
         if (!exists) {
@@ -67,7 +67,7 @@ public class CartaoService {
         return this.cartaoRepository.findAll().stream().map(cartao -> cartao.dtoResponse()).toList();
     }
 
-    public CartaoResponse edit(CartaoRequest dtoRequest, String id) {
+    public CartaoResponse edit(UsuarioRabbitMQEvent dtoRequest, String id) {
         Cartao cartao = this.cartaoRepository.findById(id).orElseThrow();
         cartao.setTipoCartao(dtoRequest.getTipoCartao());
         cartao.setNomeTitular(dtoRequest.getNome());

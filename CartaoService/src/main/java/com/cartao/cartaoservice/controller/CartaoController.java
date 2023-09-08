@@ -1,7 +1,7 @@
 package com.cartao.cartaoservice.controller;
 
 
-import com.cartao.cartaoservice.dto.request.CartaoRequest;
+import com.cartao.cartaoservice.dto.request.UsuarioRabbitMQEvent;
 import com.cartao.cartaoservice.dto.response.CartaoResponse;
 import com.cartao.cartaoservice.service.CartaoService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class CartaoController {
 
     @PostMapping(path = "", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public CartaoResponse adicionarCartao(@RequestBody CartaoRequest body) {
+    public CartaoResponse adicionarCartao(@RequestBody UsuarioRabbitMQEvent body) {
         return this.cartaoService.execute(body);
     }
 
@@ -33,13 +33,12 @@ public class CartaoController {
     }
 
     @GetMapping
-    public List<CartaoResponse> getAll(
-            @RequestParam( value = "filter", defaultValue = "") String filter) {
+    public List<CartaoResponse> getAll() {
         return cartaoService.getAll();
     }
 
     @PutMapping("/{id}")
-    public CartaoResponse edit(@RequestBody CartaoRequest body, @PathVariable String id) {
+    public CartaoResponse edit(@RequestBody UsuarioRabbitMQEvent body, @PathVariable String id) {
         return cartaoService.edit(body, id);
     }
 
