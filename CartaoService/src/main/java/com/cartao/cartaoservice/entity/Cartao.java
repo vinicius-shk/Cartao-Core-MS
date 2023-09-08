@@ -2,6 +2,7 @@ package com.cartao.cartaoservice.entity;
 
 import com.cartao.cartaoservice.dto.TipoCartao;
 import com.cartao.cartaoservice.dto.request.CartaoRequest;
+import com.cartao.cartaoservice.dto.response.CartaoResponse;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,6 +53,9 @@ public class Cartao {
         this.numeroCartao = numeroCartao;
     }
 
+    public CartaoResponse dtoResponse(){
+        return new CartaoResponse(this.numeroCartao,this.nomeTitular, this.tipoCartao, this.usuario.getNome(), null);
 
+    }
 
 }

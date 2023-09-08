@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Service
@@ -62,9 +59,29 @@ public class CartaoService {
         return listaResposta;
     }
 
+    public CartaoResponse getOne(String id) {
+        Cartao cartao = this.cartaoRepository.findById(id).orElseThrow();
+        return cartao.dtoResponse();
+    }
+
+    public List<CartaoResponse> getAll() {
+        return this.cartaoRepository.findAll().stream().map(cartao -> cartao.dtoResponse()).toList();
+    }
+
+    public CartaoResponse edit(CartaoRequest dtoRequest, String id) {
+        Cartao cartao = this.cartaoRepository.findById(id).orElseThrow();
+        cartao.setTipoCartao(dtoRequest.getTipoCartao());
+        cartao.setNomeTitular(dtoRequest.getNome());
+        cartao = this.cartaoRepository.save(cartao);
+        return cartao.dtoResponse();
+    }
+
+    public void delete(String id) {
+        this.cartaoRepository.deleteById(id);
+
+    }
 
     private String gerarNumeroAleatorio(int length) {
-
         final int tamanho = length <= 0 ? 1 : length;
         IntStream stream = getRandom().ints(tamanho, 0, 9);
         StringBuilder builder = new StringBuilder();

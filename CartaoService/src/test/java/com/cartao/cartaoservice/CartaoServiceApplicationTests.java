@@ -1,12 +1,12 @@
-package src.test.java.com.cartao.cartaoservice;
+package com.cartao.cartaoservice;
 
-//import org.junit.jupiter.api.Test;
-//import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-//@SpringBootTest
+@SpringBootTest
 class CartaoServiceApplicationTests {
 
-    //@Test
+    @Test
     void contextLoads() {
     }
 
