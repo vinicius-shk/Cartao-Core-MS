@@ -1,5 +1,5 @@
 # Cartao-Core-MS
-Criando um serviço de cartão em arquitetura de micro serviços
+Criando um serviço de cartão em arquitetura de micro serviços. A implementação foi feita de Usuario até Cartão, com RabbitMQ e API Gateway.
 
 trello: https://trello.com/b/nCrlye8n/cartao-micro-servi%C3%A7os
 
